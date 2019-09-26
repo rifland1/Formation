@@ -17,7 +17,6 @@ export class AppComponent {
 
   constructor(private userService: UserService, private router: Router, private http: HttpClient) {
     this.url = 'http://localhost:8080/';
-    this.userService.authenticate(undefined, undefined);
   }
 
   logout() {

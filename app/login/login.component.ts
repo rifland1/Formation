@@ -18,11 +18,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(){}
 
   login() {
-    this.userService.authenticate(this.credentials, () => {
-      
-        this.router.navigateByUrl('/');
-    });
-    return false;
+    this.userService.login(this.credentials);
   }
 
 }
