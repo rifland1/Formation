@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../services/user.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  title = 'Demo';
+  user = {};
+  private url: string;
 
-  ngOnInit() {
+  constructor(private userService: UserService, private http: HttpClient) {
+    this.url = 'http://localhost:8080/';
+    http.get(this.url + 'resource').subscribe(data => this.user = data);
   }
+
+  ngOnInit(){}
+
+  authenticated() { return this.userService.authenticated; }
 
 }

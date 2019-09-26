@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { User } from '../app/model/user';
-
+import { UserService } from '../app/services/user.service';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+ 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,16 +11,19 @@ import { User } from '../app/model/user';
 })
 export class AppComponent {
 
-  title:string;
-  userName:string;
-  password:string;
+  title = 'Demo';
+  greeting = {};
+  private url: string;
 
-  constructor() {
-    this.title = "Authentification Spring + Angular";
+  constructor(private userService: UserService, private router: Router, private http: HttpClient) {
+    this.url = 'http://localhost:8080/';
+    this.userService.authenticate(undefined, undefined);
   }
 
-
-  signIn() {
-    console.log(this.userName + " " + this.password);
+  logout() {
+    this.http.post(this.url + 'logout', {}).pipe(finalize( () => {
+        this.userService.authenticated = false;
+        this.router.navigateByUrl('/login');
+    })).subscribe();
   }
 }

@@ -1,24 +1,27 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from '../model/user';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private usersUrl: string;
- 
+  authenticated = false;
+  private url: string;
+
   constructor(private http: HttpClient) {
-    this.usersUrl = 'http://localhost:8080/users';
+    this.url = 'http://localhost:8080/';
   }
- 
-  public findAll(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl);
-  }
- 
-  public save(user: User) {
-    return this.http.post<User>(this.usersUrl, user);
-  }
+
+  authenticate(credentials, callback) {
+    
+    return this.http.post(this.url + 'login', credentials);
+
+    }
+  
+
+
 }
