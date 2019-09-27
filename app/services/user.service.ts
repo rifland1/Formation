@@ -16,6 +16,7 @@ export class UserService {
   private url: string;
   public username: String;
   public password: String;
+  private headers = new HttpHeaders({'Content-Type': 'application/json'});
 
   constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080/';
@@ -23,20 +24,17 @@ export class UserService {
 
 
   login (credentials: any) {
-    let headers = new HttpHeaders({ 
-          'Authorization': 'Basic ' + btoa(credentials.username + ':' + credentials.password),
-          'X-Requested-With': 'XMLHttpRequest',
-          'Content-Type': 'application/json'
-    });
-
-    let options = { 
-           headers: headers 
-    };
-
-    return this
-              .http
-              .post(this.url + 'login', credentials, options)
-              .subscribe(res => console.log(res));
-}
+    
+    let headers = new HttpHeaders({'Content-Type': 'application/json','Authorization': 'Basic ' + btoa(credentials.username + ':' + credentials.password),});
+    
+    let options = {
+      headers: headers
+    }
+    
+    this.http.post("http://localhost:8080/login", credentials, options)
+    .subscribe(
+      res => console.log(res)
+    );
+  }
 }
 
